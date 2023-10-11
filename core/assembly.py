@@ -48,7 +48,9 @@ header = {
 def get_info(rattan):
     global arguments
     arguments["source"] = rattan
-    rattan_info = session.post(url, json=arguments, headers=header).json()["asm"]
+    rattan_info = session.post(url, json=arguments, headers=header)
+    # print(rattan_info.content.decode("utf-8"))
+    rattan_info = rattan_info.json()["asm"]
     rattan_funcs = []
     rattan_assembly = list(map(lambda x:x["text"], rattan_info))
     pos = -1
