@@ -1,3 +1,4 @@
+# pylint:disable = all
 import os
 
 for i in os.listdir("."):

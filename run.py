@@ -1,3 +1,4 @@
+# pylint:disable = all
 import prettytable
 from core.assembly import get_info as get_assembly
 from core.gcov import get_info as get_gcov

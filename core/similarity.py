@@ -1,3 +1,4 @@
+# pylint:disable = all
 from math import sqrt
 from re import split
 from copy import deepcopy
