@@ -7,16 +7,20 @@ import colorama
 
 w1 = 0.8
 
+
 def read(path):
     with open(path, encoding="utf-8", mode="r") as f:
         return f.read()
+
 
 rattan_assembly, rattan_funcs = get_assembly(read("1.cpp"))
 sample_assembly, sample_funcs = get_assembly(read("2.cpp"))
 rattan_gcov = get_gcov(read("1.cpp.gcov"))
 sample_gcov = get_gcov(read("2.cpp.gcov"))
 
-rect = [[0 for i in range(len(sample_funcs))] for i in range(len(rattan_funcs))]
+rect = [[0 for i in range(len(sample_funcs))]
+        for i in range(len(rattan_funcs))]
+
 
 def find_lcsubstr(s1, s2):
     # https://blog.csdn.net/Scofield971031/article/details/89027314
@@ -29,6 +33,7 @@ def find_lcsubstr(s1, s2):
                 if m[i + 1][j + 1] > mmax:
                     mmax = m[i + 1][j + 1]
     return mmax
+
 
 for i in range(len(rattan_funcs)):
     for j in range(len(sample_funcs)):
@@ -44,7 +49,7 @@ for i in range(len(rattan_funcs)):
 
 columns = [""]
 for j in range(len(rattan_funcs)):
-    columns.append("%d." % (j+1) +  str(rattan_funcs[j][0].split("::")[-1]))
+    columns.append("%d." % (j+1) + str(rattan_funcs[j][0].split("::")[-1]))
 table = prettytable.PrettyTable(columns)
 for j in range(len(sample_funcs)):
     ans = ["%d." % (j+1) + sample_funcs[j][0]]

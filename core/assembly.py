@@ -41,10 +41,11 @@ arguments = {
 }
 url = "https://godbolt.org/api/compiler/g132/compile"
 header = {
-    "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36 Edg/117.0.2045.60",
-    "Referer" : "https://godbolt.org",
-    "Accept" : "application/json, text/javascript, */*; q=0.01"
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36 Edg/117.0.2045.60",
+    "Referer": "https://godbolt.org",
+    "Accept": "application/json, text/javascript, */*; q=0.01"
 }
+
 
 def get_info(rattan):
     global arguments
@@ -53,7 +54,7 @@ def get_info(rattan):
     # print(rattan_info.content.decode("utf-8"))
     rattan_info = rattan_info.json()["asm"]
     rattan_funcs = []
-    rattan_assembly = list(map(lambda x:x["text"], rattan_info))
+    rattan_assembly = list(map(lambda x: x["text"], rattan_info))
     pos = -1
     visited = {}
     for line in rattan_info:
@@ -92,6 +93,7 @@ def get_info(rattan):
             continue
         if funcname in visited.keys():
             continue
-        rattan_funcs.append([funcname, rattan_info[cur]["source"]["line"], edline, cur, ed-1])
+        rattan_funcs.append(
+            [funcname, rattan_info[cur]["source"]["line"], edline, cur, ed-1])
         visited[funcname] = True
     return rattan_assembly, rattan_funcs

@@ -9,11 +9,12 @@ import pandas as pd
 
 st.header("Antirattan Lite Online Demo / 反藤甲在线体验")
 st.subheader("Rattan / 题解代码")
-rattan = st_ace(language = "c_cpp", auto_update=True, key="rattan")
+rattan = st_ace(language="c_cpp", auto_update=True, key="rattan")
 st.subheader("Sample / 待检测代码")
-sample = st_ace(language = "c_cpp", auto_update=True, key="sample")
+sample = st_ace(language="c_cpp", auto_update=True, key="sample")
 st.subheader("Input Data / 输入数据")
 input_data = st_ace(auto_update=True, key="input_data")
+
 
 def find_lcsubstr(s1, s2):
     # https://blog.csdn.net/Scofield971031/article/details/89027314
@@ -27,11 +28,14 @@ def find_lcsubstr(s1, s2):
                     mmax = m[i + 1][j + 1]
     return mmax
 
+
 w1 = 0.8
+
 
 def read(path):
     with open(path, encoding="utf-8", mode="r") as f:
         return f.read()
+
 
 def run():
     with open("1.cpp", "w", encoding="utf-8") as f:
@@ -41,11 +45,13 @@ def run():
     with open("1.in", "w", encoding="utf-8") as f:
         f.write(str(input_data))
     with st.spinner("Waiting to compile,run,analysis and calculating similarity..."):
-        code = system("g++ -O3 -w 1.cpp -o 1.exe -fprofile-arcs -ftest-coverage")
+        code = system(
+            "g++ -O3 -w 1.cpp -o 1.exe -fprofile-arcs -ftest-coverage")
         if code != 0:
             st.error("Compiled unsuccessfully.")
             return
-        code = system("g++ -O3 -w 2.cpp -o 2.exe -fprofile-arcs -ftest-coverage")
+        code = system(
+            "g++ -O3 -w 2.cpp -o 2.exe -fprofile-arcs -ftest-coverage")
         if code != 0:
             st.error("Compiled unsuccessfully.")
             return
@@ -70,7 +76,8 @@ def run():
         rattan_gcov = get_gcov(read("1.cpp.gcov"))
         sample_gcov = get_gcov(read("2.cpp.gcov"))
 
-        rect = [["" for i in range(len(sample_funcs) + 1)] for i in range(len(rattan_funcs))]
+        rect = [["" for i in range(len(sample_funcs) + 1)]
+                for i in range(len(rattan_funcs))]
         progress = st.progress(0.0)
         step = 1 / (len(rattan_funcs) * len(sample_funcs))
         all_step = 0
@@ -87,13 +94,14 @@ def run():
                 ) / ((rattan_funcs[i][2]-rattan_funcs[i][1]+1+sample_funcs[j][2]-sample_funcs[j][1]+1)/2)
                 rect[i][j + 1] = "%.2f%%" % ((w1 * lcs + (1-w1) * asm) * 100)
                 all_step += step
-                progress.progress(all_step, "Calculated similarity between %s and %s" % (rattan_funcs[i][0], sample_funcs[j][0]))
+                progress.progress(all_step, "Calculated similarity between %s and %s" % (
+                    rattan_funcs[i][0], sample_funcs[j][0]))
         columns = [""]
         for j in range(len(sample_funcs)):
             columns.append(str(sample_funcs[j][0].split("::")[-1]))
         dataframe = pd.DataFrame(rect, columns=columns)
         st.dataframe(dataframe)
         system("python3 clean.py")
-    
-check_btn = st.button("Check / 检测", on_click=run)
 
+
+check_btn = st.button("Check / 检测", on_click=run)

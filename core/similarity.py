@@ -4,9 +4,9 @@ from re import split
 from copy import deepcopy
 
 
-def wash(x : list):
-    x : str = ' '.join(x)
-    x : list = split(r"[ \n\t]|,", x)
+def wash(x: list):
+    x: str = ' '.join(x)
+    x: list = split(r"[ \n\t]|,", x)
     try:
         while True:
             x.remove('')
@@ -14,7 +14,8 @@ def wash(x : list):
         pass
     return x
 
-def cosine(x : list, y : list):
+
+def cosine(x: list, y: list):
     x = wash(x)
     y = wash(y)
     words = list(set(x) | set(y))
@@ -38,7 +39,7 @@ def cosine(x : list, y : list):
     return ratio
 
 
-def jaccard(x : list, y : list):
+def jaccard(x: list, y: list):
     x = wash(x)
     y = wash(y)
     inte = len(set(x) & set(y))
